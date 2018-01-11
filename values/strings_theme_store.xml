@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ts_title">主题商店</string>
+    <string name="ts_wallpaper">壁纸</string>
+    <string name="ts_theme">主题</string>
+    <string name="ts_category">分类</string>
+    <string name="ts_hot">最热</string>
+    <string name="ts_latest">最新</string>
+
+    <string-array name="ts_categories">
+        <item>人气推荐</item>
+        <item>自然风光</item>
+        <item>温暖如春</item>
+        <item>冰天雪地</item>
+    </string-array>
+    <string name="ts_view_all">查看所有</string>
+
+    <string name="theme_store_view_behavior">com.android.launcher3.theme.ThemeStoreViewBehavior</string>
+</resources>
