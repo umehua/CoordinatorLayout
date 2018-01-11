@@ -1,13 +1,16 @@
 package com.android.launcher3.theme;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.launcher3.R;
@@ -52,12 +55,14 @@ public class ThemeStoreViewBehavior extends AppBarLayout.ScrollingViewBehavior {
                     + getObjectIntMethod(clzHeaderScrollingViewBehavior, this, "getVerticalLayoutGap", null)
                     - getObjectIntMethod(clzHeaderScrollingViewBehavior, this, "getOverlapPixelsForOffset", new Class[] {View.class}, dependency);
 
+            ViewCompat.offsetTopAndBottom(child, offset);
+
             // android坐标的原点在左上角，往下y值增加，往右x值增加
             // child.getTop()是指child的最顶端离parent最顶端的距离, child.getBottom()指child最底端距离parent最顶端的距离.
             // dependency是AppBarLayout，当折叠AppBarLayout时，实际上相当于AppBarLayout占的整个矩形平面往上移动，而里面的toolbar则往下移动，因为toolbar总要显示在最顶端，如果它往上移动，那就不见了。
             // 实际上AppBarLayout不能完全折叠，最后还剩下约一个toolbar的高度(因为存在padding,margin这类距离)
 
-            // 目标：让toolbar的文字折叠时显示黑色，展开时显示白色。
+            // 目标：让toolbar的文字,图标折叠时显示黑色，展开时显示白色。
             // 初始状态为展开，展开时AppBar.getBottom()值为a, toolbar.getBottom()值为b,因为toolbar最后会移动到AppBar的最底端，所以折叠时， toolbar.getBottom()值为a，也就是展开折叠，toolbar.getBottom()的值从b变为a.
             Toolbar toolbar = (Toolbar)dependency.findViewById(R.id.toolbar);
             if (MAX_BOTTOM_DISTANCE == null) {
@@ -72,7 +77,10 @@ public class ThemeStoreViewBehavior extends AppBarLayout.ScrollingViewBehavior {
             ((TextView)toolbar.findViewById(R.id.theme)).setTextColor((int)color);
             ((TextView)toolbar.findViewById(R.id.wallpaper)).setTextColor((int)color);
 
-            ViewCompat.offsetTopAndBottom(child, offset);
+            Drawable d = toolbar.getContext().getResources().getDrawable(R.drawable.ic_more_vert, null);
+            Drawable wrapper = DrawableCompat.wrap(d);
+            DrawableCompat.setTint(wrapper, (int)color);
+            ((ImageView)toolbar.findViewById(R.id.more)).setImageDrawable(wrapper);
         }
     }
 
